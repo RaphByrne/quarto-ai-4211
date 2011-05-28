@@ -32,7 +32,8 @@ public class AlphaBeta {
 	  ListIterator li;
 	  //Actions orderedActs = ((PlayerNodeInfo)nodeInfo).orderActions(start);
       //li = orderedActs.listIterator();
-	  
+	  Actions acts = start.getState().getActions();
+	  System.out.println("Found " + acts.size() + " moves");
 	  li = start.getState().getActions().listIterator();
 	  bestAction = (Action)start.getState().getActions().get(0);
 	  bestValue = Double.NEGATIVE_INFINITY;
@@ -57,7 +58,7 @@ public class AlphaBeta {
 		  } else if(maxVal == bestValue)
 			  equalActionsPool.add(nextAction);
 	  }
-	  System.out.println("Best utility found is: " + bestValue);
+	  //System.out.println("Best utility found is: " + bestValue);
 	  if(equalActionsPool.size() > 1)
 		  return (Action)equalActionsPool.get((int)(Math.random()*equalActionsPool.size()));
 	  else

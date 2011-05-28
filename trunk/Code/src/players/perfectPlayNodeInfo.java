@@ -4,13 +4,12 @@ import quarto.QBoard;
 import search.Node;
 import search.NodeInfo;
 
-public class perfectPlayNodeInfo implements NodeInfo {
+public class PerfectPlayNodeInfo implements NodeInfo {
 
 	boolean isOne;
 	double depthLim;
 	
-	public perfectPlayNodeInfo(boolean isOne, double depthLim) {
-		super();
+	public PerfectPlayNodeInfo(boolean isOne, double depthLim) {
 		this.isOne = isOne;
 		this.depthLim = depthLim;
 	}

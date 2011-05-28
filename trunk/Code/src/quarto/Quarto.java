@@ -57,7 +57,9 @@ public class Quarto {
 	public void step() {
 		Player nextPlayer = getNextPlayer();
 		//System.out.println(nextPlayer.getName() + " to move");
-		board.update(nextPlayer.getAction(board.getPercept()));
+		QMove nextMove = (QMove)nextPlayer.getAction(board.getPercept());
+		System.out.println(nextPlayer.getName() + " making move: " + nextMove.toString());
+		board.update(nextMove);
 	}
 	
 }

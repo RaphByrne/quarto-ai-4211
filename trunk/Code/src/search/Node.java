@@ -42,6 +42,7 @@ public class Node {
     this.utility = utility;
   }
 
+  @Override
   public Object clone () {
     return new Node((State) state.clone(), (Actions) path.clone(), cost, utility);
   }

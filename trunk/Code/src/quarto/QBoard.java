@@ -155,7 +155,7 @@ public class QBoard implements Environment, Percept, State, java.lang.Cloneable,
 	
 	@Override
 	public Object clone() {
-		return new QBoard(board, unplayed, oneToMove, nextPiece, prevMove);
+		return new QBoard(boardClone(board), unplayed, oneToMove, nextPiece, prevMove);
 	}
 	
 	@Override
@@ -249,7 +249,6 @@ public class QBoard implements Environment, Percept, State, java.lang.Cloneable,
 		return boardClone(board);
 	}
 	
-	@Override
 	public Percept getPercept() {
 		return this;
 	}

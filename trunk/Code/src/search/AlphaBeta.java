@@ -47,7 +47,7 @@ public class AlphaBeta {
 		  //System.out.println("Top level: Test Action");
 		  maxVal = maxValue(nodeclone, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
 		  //System.out.println("Top level: recieved max of " + maxVal);
-		  System.out.println("Found move with utility: " + maxVal);
+		  //System.out.println("Found move with utility: " + maxVal);
 		  if(maxVal > bestValue) {
 			  equalActionsPool = new Actions();
 			  bestValue = maxVal;
@@ -56,7 +56,7 @@ public class AlphaBeta {
 		  } else if(maxVal == bestValue)
 			  equalActionsPool.add(nextAction);
 	  }
-	  System.out.println("Best utility found is: " + bestValue);
+	  //System.out.println("Best utility found is: " + bestValue);
 	  if(equalActionsPool.size() > 1)
 		  return (Action)equalActionsPool.get((int)(Math.random()*equalActionsPool.size()));
 	  else
@@ -87,8 +87,8 @@ public class AlphaBeta {
     	  child.update(arc);
     	  //if(!visited.contains(child)) {
     	  		
-	    	  childValue = minValue(child, alpha, beta);
-	    	  if(childValue > alpha) alpha = childValue;
+	    	  alpha = Math.max(alpha, minValue(child, alpha, beta));
+	    	  
 	    	  if(alpha >= beta) return beta;
 	    	  //if(alpha > maxSoFar) maxSoFar = alpha;
 	    	  //System.out.println("Max: got child value: " + childValue);
@@ -125,8 +125,7 @@ public class AlphaBeta {
     	  child.update(arc);
     	  //if(!visited.contains(child)) {
     	  		
-	    	  childValue = maxValue(child, alpha, beta);
-	    	  if(childValue < beta) beta = childValue;
+	    	  beta = Math.min(beta, maxValue(child, alpha, beta));
 	    	  if(beta <= alpha) return alpha;
 	    	  //if(minSoFar > beta) minSoFar = beta;
 	    	  //visited.add(child);

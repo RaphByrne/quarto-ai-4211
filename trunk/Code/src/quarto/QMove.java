@@ -67,7 +67,16 @@ public class QMove implements Action {
 	
 	@Override
 	public String toString() {
-		return "QMove: " + recieved.toString() +  ", " + location.toString() + ", " + giving.toString();
+		if(location == null)
+			return "QMove: " + "null" +  ", " + "null" + ", " + giving.toString();
+		else if(recieved != null && giving == null) {
+			return "QMove: " + recieved.toString() +  ", " + location.toString() + ", " + "null";
+		} else if(recieved == null && giving != null)
+			return "QMove: " + "null" +  ", " + location.toString() + ", " + giving.toString();
+		else if(recieved == null && giving == null)
+			return "QMove: " + "null" +  ", " + location.toString() + ", " + "null";
+		else
+			return "QMove: " + recieved.toString() +  ", " + location.toString() + ", " + giving.toString();
 	}
 	
 

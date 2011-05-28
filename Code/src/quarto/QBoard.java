@@ -56,7 +56,7 @@ public class QBoard implements Environment, Percept, State, java.lang.Cloneable,
 		return out;
 	}
 	
-	public QBoard(Piece[][] board, ArrayList<Piece> unplayed, boolean oneToMove, Piece nextPiece, QMove prevMove) {
+	public QBoard(Piece[][] board, ArrayList<Piece> unplayed, boolean oneToMove, Piece nextPiece, QMove prevMove, boolean firstMove) {
 		this.board = boardClone(board);
 		this.unplayed = (ArrayList<Piece>)unplayed.clone();
 		this.oneToMove = oneToMove;
@@ -64,6 +64,7 @@ public class QBoard implements Environment, Percept, State, java.lang.Cloneable,
 		else nextPiece = null;
 		if(prevMove != null) this.prevMove = (QMove)prevMove.clone();
 		else this.prevMove = null;
+		this.firstMove = firstMove;
 	}
 	
 	
@@ -155,14 +156,14 @@ public class QBoard implements Environment, Percept, State, java.lang.Cloneable,
 	
 	@Override
 	public Object clone() {
-		return new QBoard(boardClone(board), unplayed, oneToMove, nextPiece, prevMove);
+		return new QBoard(board, unplayed, oneToMove, nextPiece, prevMove, firstMove);
 	}
 	
 	@Override
 	public void update(Action action) throws RuntimeException {
 		if(action instanceof QMove) {
 			QMove move = (QMove)action;
-			
+			firstMove = false;
 			if(move.getRecieved() != null) { //if isn't the first move
 				Piece placedPiece = (Piece)move.getRecieved().clone();
 				Point loc = move.getLocation();
@@ -183,7 +184,6 @@ public class QBoard implements Environment, Percept, State, java.lang.Cloneable,
 		if(firstMove) {
 			for(Piece p : unplayed)
 				actions.add(new QMove(null, null, p));
-			firstMove = false;
 		} else if(unplayed.size() == 1) { //if the last move (piece to put down hasn't been removed yet)
 			for(int i = 0; i < board.length; i++)
 				for(int j = 0; j < board[i].length; j++)

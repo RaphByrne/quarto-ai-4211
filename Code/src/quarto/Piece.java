@@ -1,6 +1,6 @@
 package quarto;
 
-public class Piece {
+public class Piece implements java.lang.Cloneable {
 
 	private boolean black;
 	private boolean round;
@@ -41,6 +41,7 @@ public class Piece {
 		else if(s.contains("s")) solid = false;
 	}
 	
+	
 	@Override
 	public boolean equals(Object piece) {
 		Piece p2 = (Piece)piece;
@@ -62,6 +63,7 @@ public class Piece {
 			|| (this.isTall() == p2.isTall());
 	}
 	
+	@Override
 	public Object clone() {
 		return new Piece(black, round, solid, tall);
 	}

@@ -32,6 +32,7 @@ public class AlphaBeta {
 	  ListIterator li;
 	  //Actions orderedActs = ((PlayerNodeInfo)nodeInfo).orderActions(start);
       //li = orderedActs.listIterator();
+	  
 	  li = start.getState().getActions().listIterator();
 	  bestAction = (Action)start.getState().getActions().get(0);
 	  bestValue = Double.NEGATIVE_INFINITY;
@@ -47,7 +48,7 @@ public class AlphaBeta {
 		  //System.out.println("Top level: Test Action");
 		  maxVal = maxValue(nodeclone, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
 		  //System.out.println("Top level: recieved max of " + maxVal);
-		  //System.out.println("Found move with utility: " + maxVal);
+		  System.out.println("Found move with utility: " + maxVal);
 		  if(maxVal > bestValue) {
 			  equalActionsPool = new Actions();
 			  bestValue = maxVal;
@@ -56,7 +57,7 @@ public class AlphaBeta {
 		  } else if(maxVal == bestValue)
 			  equalActionsPool.add(nextAction);
 	  }
-	  //System.out.println("Best utility found is: " + bestValue);
+	  System.out.println("Best utility found is: " + bestValue);
 	  if(equalActionsPool.size() > 1)
 		  return (Action)equalActionsPool.get((int)(Math.random()*equalActionsPool.size()));
 	  else

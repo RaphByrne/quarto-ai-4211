@@ -209,7 +209,11 @@ public class QBoard implements Environment, Percept, State, java.lang.Cloneable,
 	private String unplayedString() {
 		String s = "";
 		for(Piece p : unplayed) {
-			s = s.concat(p.toString() + " ");
+			if(nextPiece == null)
+				s = s.concat(p.toString() + " ");
+			else if (!p.equals(nextPiece)) {
+				s = s.concat(p.toString() + " ");
+			}
 		}
 		return s;
 	}

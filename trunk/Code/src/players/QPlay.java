@@ -42,14 +42,17 @@ public class QPlay {
 	public static void main(String[] args) {
 		
 		Player p1 = new RandomRob(false, "Rob1");
-		Player missy = new NoMistakeOnePly(false, "Missy");
+		
 		Player alpha = new AlphaBetaPlayer(true, "Alpha");
 		Player steve = new SimpleStrat(false, "Steve");
 		Player human = new HumanPlayer(false, "John Smith");
-		Player alphaID = new AlphaBetaIDPlayer(true, "AlphaID");
-		
+		Player alphaID1 = new AlphaBetaIDPlayer(true, "AlphaID");
+		Player alphaID2 = new AlphaBetaIDPlayer(false, "AlphaID");
+		Player missy1 = new NoMistakeOnePly(true, "Missy");
+		Player missy2 = new NoMistakeOnePly(false, "Missy");
 		//testGame(missy, alpha, true);
-		testGame(alphaID, missy, 10, false);
+		//testGame(alphaID1, missy2, 10, false);
+		testGame(missy1, alphaID2, 10, false);
 		
 	}
 	

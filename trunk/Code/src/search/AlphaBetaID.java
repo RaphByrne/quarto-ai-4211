@@ -9,31 +9,36 @@ import java.util.Timer;
 
 import agent.*;
 
-public class AlphaBetaID implements Runnable {
+public class AlphaBetaID extends Thread {
 
   NodeInfo nodeInfo;
   ArrayList<Node> visited;
   Node start;
   public Action best;
+  long startTime;
+  long timeToRun;
   
-  public AlphaBetaID (NodeInfo nodeInfo, Node start) {
+  public AlphaBetaID (NodeInfo nodeInfo, Node start, long timeToRun) {
     this.nodeInfo = nodeInfo;
     visited = new ArrayList<Node>();
     this.start = start;
     this.best = null;
+    startTime = System.currentTimeMillis();
+    this.timeToRun = timeToRun;
   }
   
   @Override
   public void run() {
 	  nodeInfo.setDepthLimit(2);
 	  //Action best = null;
-	  while((nodeInfo.getDepthLimit() <= 8)) {
+	  while((nodeInfo.getDepthLimit() <= 16)) {
+		  if(System.currentTimeMillis() - startTime > timeToRun) break;
 		  best = Decision(start);
 		  Node clone = (Node)start.clone();
 		  clone.update(best);
 		  if(nodeInfo.utility(clone) < -0.5) best = null;
-		  System.out.println("Utility of best: " + nodeInfo.utility(clone));		  
-		  nodeInfo.setDepthLimit(nodeInfo.getDepthLimit() + 2);
+		  //System.out.println("Utility of best: " + nodeInfo.utility(clone));
+		  nodeInfo.setDepthLimit(nodeInfo.getDepthLimit() + 1);
 	  }
   }
   
@@ -41,6 +46,7 @@ public class AlphaBetaID implements Runnable {
 	  nodeInfo.setDepthLimit(2);
 	  Action best = null;
 	  while((nodeInfo.getDepthLimit() <= 16)) {
+		  if(Thread.interrupted()) break;
 		  best = Decision(start);
 		  Node clone = (Node)start.clone();
 		  clone.update(best);
@@ -82,7 +88,7 @@ public class AlphaBetaID implements Runnable {
 	  Actions equalActionsPool = new Actions();
 	  
 	  while(li.hasNext()) {
-		  Thread.yield();
+		  if(System.currentTimeMillis() - startTime > timeToRun) break;
 		  Node nodeclone = (Node)start.clone();
 		  Action nextAction = (Action)li.next();
 		  nodeclone.update(nextAction);
@@ -126,6 +132,7 @@ public class AlphaBetaID implements Runnable {
     	li = visit.getState().getActions().listIterator();
       int count = 0;
       while (li.hasNext()) {
+    	  if(System.currentTimeMillis() - startTime > timeToRun) break;
     	  //System.out.println("Max: Testing Action " + count);
     	  arc = (Action)li.next();
     	  child = (Node)visit.clone();
@@ -165,6 +172,7 @@ public class AlphaBetaID implements Runnable {
     	li = visit.getState().getActions().listIterator();
       int count = 0;
       while (li.hasNext()) {
+    	  if(System.currentTimeMillis() - startTime > timeToRun) break;
     	  //System.out.println("        Min: Testing Action " + count);
     	  arc = (Action)li.next();
     	  child = (Node)visit.clone();

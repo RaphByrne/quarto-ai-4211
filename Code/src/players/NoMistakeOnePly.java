@@ -31,6 +31,7 @@ public class NoMistakeOnePly extends Player {
 	public Action getAction(Percept p) {
 		QBoard board = (QBoard) p;
 		Actions actions = board.getActions();
+		Actions nonLosing = new Actions();
 		for(Iterator<Action> i = actions.iterator(); i.hasNext();) {
 			QMove move = (QMove)i.next();
 			QBoard nextBoard = (QBoard)board.clone();
@@ -45,12 +46,16 @@ public class NoMistakeOnePly extends Player {
 					dontLoseNext = dontLoseNext && !nextBoard2.isWinningBoard();
 				}
 			}
-			if(dontLoseNext) return move;
+			if(dontLoseNext) nonLosing.add(move);
 			
 		}
-		//if we didn't find a board that would not make us lose then pick a random move
-		int choice = (int)(Math.random()*(actions.size()-1));
-		return (Action)actions.get(choice);
+		if(nonLosing.size() > 0) {
+			int choice = (int)(Math.random()*(nonLosing.size()-1));
+			return (Action)nonLosing.get(choice);
+		} else {
+			int choice = (int)(Math.random()*(actions.size()-1));
+			return (Action)actions.get(choice);
+		}
 	}
 
 }

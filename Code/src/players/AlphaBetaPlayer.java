@@ -51,7 +51,7 @@ public class AlphaBetaPlayer extends Player {
 			Action alpha = searcher.Decision(start);
 			long end = System.currentTimeMillis();
 			long total = end - begin;
-			System.out.println("Alpha beta took " + (total) + " millisecs");
+			System.out.println("Alphabeta time: " + total);
 			return alpha;
 		} else {
 			//System.out.println("Alpha used noMistake");

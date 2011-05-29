@@ -1,6 +1,7 @@
 package players;
 
 import java.util.Date;
+import java.util.Timer;
 
 import players.QuartoNodeInfo;
 import search.*;
@@ -16,7 +17,6 @@ public class AlphaBetaIDPlayer extends Player {
 	int moveCount;
 	String name;
 	boolean isOne;
-	Date theTime;
 	
 	public AlphaBetaIDPlayer(boolean isOne, String name) {
 		super(isOne, name);
@@ -26,7 +26,6 @@ public class AlphaBetaIDPlayer extends Player {
 		if(isOne) moveCount = -1;
 		else moveCount = 0;
 		this.name = name;
-		theTime = new Date();
 	}
 
 	@Override
@@ -36,31 +35,25 @@ public class AlphaBetaIDPlayer extends Player {
 	
 	@Override
 	public Action getAction(Percept p) {
-		moveCount++;
+		long startTime = System.currentTimeMillis();
 		QBoard q = (QBoard) p;
 		QBoard board = (QBoard)q.clone();
-		//System.out.println("Alpha got board: \n" + board.toString());
+		
 		Action next = noMistake.getAction(p);
 		QBoard clone = (QBoard)q.clone();
 		clone.update(next);
+		
 		if(clone.isWinningBoard()) return next;
 		if(board.firstMove()) {
 			Actions actions = board.getActions();
 			int choice = (int)(Math.random()*(actions.size()-1));
 			return (Action)actions.get(choice);
-		} else if(moveCount > 3) { //if there have been 10 moves
+		} else { 
 			Node start = new Node(board);
-			
-			AlphaBetaID searcher = new AlphaBetaID(nodeInfo, start);
-			Thread thread = new Thread(searcher);
+			long here = System.currentTimeMillis();
+			AlphaBetaID searcher = new AlphaBetaID(nodeInfo, start, 5000 - (here - startTime));
 			long begin = System.currentTimeMillis();
-			thread.run();
-			try {
-			Thread.sleep(4000);
-			} catch (Exception e) {
-				return next;
-			}
-			thread.interrupt();
+			searcher.run();
 			long end = System.currentTimeMillis();
 			long total = end - begin;
 			System.out.println("Alphabeta time: " + total);
@@ -70,7 +63,7 @@ public class AlphaBetaIDPlayer extends Player {
 			//AlphaBeta searcher = new AlphaBeta(nodeInfo);
 			//Action alpha = searcher.Decision(start);
 			
-		} else return next;
+		}
 			
 	}
 

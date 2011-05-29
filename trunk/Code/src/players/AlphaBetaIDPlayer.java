@@ -9,7 +9,7 @@ import agent.Actions;
 import agent.Percept;
 import quarto.*;
 
-public class AlphaBetaPlayer extends Player {
+public class AlphaBetaIDPlayer extends Player {
 
 	NodeInfo nodeInfo;
 	Player noMistake;
@@ -18,7 +18,7 @@ public class AlphaBetaPlayer extends Player {
 	boolean isOne;
 	Date theTime;
 	
-	public AlphaBetaPlayer(boolean isOne, String name) {
+	public AlphaBetaIDPlayer(boolean isOne, String name) {
 		super(isOne, name);
 		this.isOne = isOne;
 		nodeInfo = new PerfectPlayNodeInfo(isOne, 8);
@@ -31,7 +31,7 @@ public class AlphaBetaPlayer extends Player {
 
 	@Override
 	public Object clone() {
-		return new AlphaBetaPlayer(isOne, name);
+		return new AlphaBetaIDPlayer(isOne, name);
 	}
 	
 	@Override
@@ -48,21 +48,29 @@ public class AlphaBetaPlayer extends Player {
 			Actions actions = board.getActions();
 			int choice = (int)(Math.random()*(actions.size()-1));
 			return (Action)actions.get(choice);
-		} else if(moveCount > 4){ //if there have been 10 moves
+		} else if(moveCount > 3) { //if there have been 10 moves
 			Node start = new Node(board);
+			
+			AlphaBetaID searcher = new AlphaBetaID(nodeInfo, start);
+			Thread thread = new Thread(searcher);
 			long begin = System.currentTimeMillis();
-			AlphaBeta searcher = new AlphaBeta(nodeInfo);
-			Action alpha = searcher.Decision(start);
-			//AlphaBeta searcher = new AlphaBeta(nodeInfo);
-			//Action alpha = searcher.Decision(start);
+			thread.run();
+			try {
+			Thread.sleep(4000);
+			} catch (Exception e) {
+				return next;
+			}
+			thread.interrupt();
 			long end = System.currentTimeMillis();
 			long total = end - begin;
 			System.out.println("Alphabeta time: " + total);
-			return alpha;
-		} else {
-			System.out.println("Alpha used noMistake");
-			return next;
-		}
+			if(searcher.best != null) return searcher.best;
+			else return next;
+			//Action alpha = searcher.IDSearch(start, next);
+			//AlphaBeta searcher = new AlphaBeta(nodeInfo);
+			//Action alpha = searcher.Decision(start);
+			
+		} else return next;
 			
 	}
 

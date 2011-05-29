@@ -16,4 +16,8 @@ public abstract class Player implements Agent {
 		return name;
 	}
 	
+	public Object clone() {
+		return this;
+	}
+	
 }

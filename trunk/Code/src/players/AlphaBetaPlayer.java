@@ -23,7 +23,8 @@ public class AlphaBetaPlayer extends Player {
 		this.isOne = isOne;
 		nodeInfo = new PerfectPlayNodeInfo(isOne, 8);
 		noMistake = new NoMistakeOnePly(isOne);
-		moveCount = 0;
+		if(isOne) moveCount = -1;
+		else moveCount = 0;
 		this.name = name;
 		theTime = new Date();
 	}
@@ -39,7 +40,10 @@ public class AlphaBetaPlayer extends Player {
 		QBoard q = (QBoard) p;
 		QBoard board = (QBoard)q.clone();
 		//System.out.println("Alpha got board: \n" + board.toString());
-		
+		Action next = noMistake.getAction(p);
+		QBoard clone = (QBoard)q.clone();
+		clone.update(next);
+		if(clone.isWinningBoard()) return next;
 		if(board.firstMove()) {
 			Actions actions = board.getActions();
 			int choice = (int)(Math.random()*(actions.size()-1));
@@ -47,19 +51,16 @@ public class AlphaBetaPlayer extends Player {
 		} else if(moveCount > 4){ //if there have been 10 moves
 			Node start = new Node(board);
 			long begin = System.currentTimeMillis();
-			AlphaBeta searcher = new AlphaBeta(nodeInfo);
-			Action alpha = searcher.Decision(start);
+			AlphaBetaID searcher = new AlphaBetaID(nodeInfo);
+			Action alpha = searcher.IDSearch(start, next);
+			//AlphaBeta searcher = new AlphaBeta(nodeInfo);
+			//Action alpha = searcher.Decision(start);
 			long end = System.currentTimeMillis();
 			long total = end - begin;
 			System.out.println("Alphabeta time: " + total);
 			return alpha;
 		} else {
-			//System.out.println("Alpha used noMistake");
-			long begin = System.currentTimeMillis();
-			Action next = noMistake.getAction(p);
-			long end = System.currentTimeMillis();
-			long total = end - begin;
-			System.out.println("one ply took " + total + " millisecs");
+			System.out.println("Alpha used noMistake");
 			return next;
 		}
 			

@@ -49,7 +49,7 @@ public class QPlay {
 		Player alphaID = new AlphaBetaIDPlayer(true, "AlphaID");
 		
 		//testGame(missy, alpha, true);
-		testGame(alpha, missy, 500, false);
+		testGame(alphaID, missy, 10, false);
 		
 	}
 	

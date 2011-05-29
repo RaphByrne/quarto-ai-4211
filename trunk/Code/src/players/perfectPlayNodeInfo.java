@@ -61,7 +61,7 @@ public class PerfectPlayNodeInfo implements NodeInfo {
 		if(isGoal(node)) return 1;
 		else 
 			if(board.isWinningBoard()) return -1;
-			else return util2(board);
+			else return 0;
 	}
 
 	@Override

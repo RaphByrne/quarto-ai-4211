@@ -15,7 +15,7 @@ public class AlphaBeta {
     this.nodeInfo = nodeInfo;
     visited = new ArrayList<Node>();
   }
-
+  
   /*
   public double minimaxValue(Node node, boolean maxToMove) {
 	  if(nodeInfo.isTerminal(node)) return nodeInfo.utility(node);
@@ -136,8 +136,5 @@ public class AlphaBeta {
       }
       return beta;
     }
-
-
   }
-
 }

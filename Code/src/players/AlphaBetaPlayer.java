@@ -1,5 +1,7 @@
 package players;
 
+import java.util.Date;
+
 import players.QuartoNodeInfo;
 import search.*;
 import agent.Action;
@@ -12,15 +14,25 @@ public class AlphaBetaPlayer extends Player {
 	NodeInfo nodeInfo;
 	Player noMistake;
 	int moveCount;
+	String name;
+	boolean isOne;
+	Date theTime;
 	
 	public AlphaBetaPlayer(boolean isOne, String name) {
 		super(isOne, name);
+		this.isOne = isOne;
 		nodeInfo = new PerfectPlayNodeInfo(isOne, 8);
 		noMistake = new NoMistakeOnePly(isOne);
 		moveCount = 0;
-
+		this.name = name;
+		theTime = new Date();
 	}
 
+	@Override
+	public Object clone() {
+		return new AlphaBetaPlayer(isOne, name);
+	}
+	
 	@Override
 	public Action getAction(Percept p) {
 		moveCount++;
@@ -34,12 +46,21 @@ public class AlphaBetaPlayer extends Player {
 			return (Action)actions.get(choice);
 		} else if(moveCount > 4){ //if there have been 10 moves
 			Node start = new Node(board);
+			long begin = System.currentTimeMillis();
 			AlphaBeta searcher = new AlphaBeta(nodeInfo);
 			Action alpha = searcher.Decision(start);
+			long end = System.currentTimeMillis();
+			long total = end - begin;
+			System.out.println("Alpha beta took " + (total) + " millisecs");
 			return alpha;
 		} else {
-			System.out.println("Alpha used noMistake");
-			return noMistake.getAction(p);
+			//System.out.println("Alpha used noMistake");
+			long begin = System.currentTimeMillis();
+			Action next = noMistake.getAction(p);
+			long end = System.currentTimeMillis();
+			long total = end - begin;
+			System.out.println("one ply took " + total + " millisecs");
+			return next;
 		}
 			
 	}

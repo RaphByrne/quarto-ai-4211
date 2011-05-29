@@ -22,6 +22,8 @@ public class QPlay {
 		int p2Wins = 0;
 		int draws = 0;
 		for(int i = 0; i < numGames; i++) {
+			p1 = (Player)p1.clone();
+			p2 = (Player)p2.clone();
 			Quarto game = new Quarto(p1, p2);
 			if(verbose) System.out.println("Initial Board: \n" + game.printBoard());
 			while(!game.gameOver()) {
@@ -46,7 +48,7 @@ public class QPlay {
 		Player human = new HumanPlayer(false, "John Smith");
 		
 		//testGame(missy, alpha, true);
-		testGame(missy, alpha, true);
+		testGame(missy, alpha, 100, false);
 		
 	}
 	

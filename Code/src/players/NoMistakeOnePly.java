@@ -10,8 +10,11 @@ import quarto.*;
 
 public class NoMistakeOnePly extends Player {
 
+	boolean isOne;
+	
 	public NoMistakeOnePly(boolean isOne, String name) {
 		super(isOne, name);
+		this.isOne = isOne;
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -19,6 +22,11 @@ public class NoMistakeOnePly extends Player {
 		super(isOne, "Missy");
 	}
 
+	@Override
+	public Object clone() {
+		return new NoMistakeOnePly(isOne);
+	}
+	
 	@Override
 	public Action getAction(Percept p) {
 		QBoard board = (QBoard) p;

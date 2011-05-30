@@ -312,5 +312,52 @@ public class QBoard implements Environment, Percept, State, java.lang.Cloneable,
 				|| move.getGiving().equals(nextPiece));
 	}
 	
+	@Override
+	public boolean equals(Object o) {
+		if(o instanceof QBoard) {
+			QBoard other = (QBoard)o;
+			for(int i = 0; i < 4; i++) {
+				for(int j = 0; j < 4; j++) {
+					if(board[i][j] == null && other.getBoard()[i][j] != null) return false;
+					if(board[i][j] != null && other.getBoard()[i][j] == null) return false;
+					if(board[i][j] == null && other.getBoard()[i][j] == null) continue;
+					if(!board[i][j].equals(other.getBoard()[i][j])) return false;
+				}
+				
+			}
+			if(!nextPiece.equals(other.getNextPiece())) return false;
+			return true;
+		} else 
+			return false;
+	}
+	
+	public boolean equivalence(QBoard other) {
+		for(QBoard b: this.generateSymmetries()) {
+			if(b.equals(other)) return true;
+		}
+		return false;
+	}
+	
+	public ArrayList<QBoard> generateSymmetries() {
+		Piece[][] new1 = new Piece[4][4];
+		Piece[][] new2 = new Piece[4][4];
+		//Piece[][] new3 = new Piece[4][4];
+		for(int i = 0; i < 4; i++) {
+			for(int j = 0; j < 4; j++) {
+				new1[i][j] = board[j][i];
+				new2[i][j] = board[3-j][3-i];
+				//new3[3-i][3-j] = board[i][j];
+			}
+		}
+		QBoard board2 = new QBoard(new1, unplayed, oneToMove, nextPiece, prevMove, firstMove);
+		QBoard board3 = new QBoard(new2, unplayed, oneToMove, nextPiece, prevMove, firstMove);
+		//QBoard board4 = new QBoard(new3, unplayed, oneToMove, nextPiece, prevMove, firstMove);
+		ArrayList<QBoard> boards = new ArrayList<QBoard>(3);
+		boards.add((QBoard)this.clone());
+		boards.add(board2);
+		boards.add(board3);
+		//boards.add(board4);
+		return boards;
+	}
 	
 }

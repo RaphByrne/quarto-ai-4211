@@ -18,6 +18,7 @@ public class AlphaBetaID extends Thread {
   long startTime;
   long timeToRun;
   int plyCount = 0;
+  ArrayList<Action> badActs;
   
   public AlphaBetaID (NodeInfo nodeInfo, Node start, long timeToRun) {
     this.nodeInfo = nodeInfo;
@@ -26,6 +27,7 @@ public class AlphaBetaID extends Thread {
     this.best = null;
     startTime = System.currentTimeMillis();
     this.timeToRun = timeToRun;
+    badActs = new ArrayList<Action>();
   }
   
   @Override
@@ -57,6 +59,8 @@ public class AlphaBetaID extends Thread {
 	  //Actions orderedActs = ((PlayerNodeInfo)nodeInfo).orderActions(start);
       //li = orderedActs.listIterator();
 	  Actions acts = start.getState().getActions();
+	  if(acts.removeAll(badActs)) System.out.println("Removed some bad actions");
+	  
 	  //System.out.println("Found " + acts.size() + " moves");
 	  li = start.getState().getActions().listIterator();
 	  bestAction = (Action)start.getState().getActions().get(0);
@@ -73,7 +77,7 @@ public class AlphaBetaID extends Thread {
 		  //System.out.println("Top level: Test Action");
 		  //plyCount = 0;
 		  maxVal = minValue(nodeclone, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
-		  
+		  if(maxVal < -0.5) badActs.add(nextAction);
 		  //System.out.println("Top level: recieved max of " + maxVal);
 		  //System.out.println("Found move with utility: " + maxVal);
 		  if(maxVal > bestValue) {

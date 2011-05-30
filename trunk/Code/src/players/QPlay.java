@@ -43,16 +43,19 @@ public class QPlay {
 		
 		Player p1 = new RandomRob(false, "Rob1");
 		
-		Player alpha = new AlphaBetaPlayer(true, "Alpha");
+		Player alpha1 = new AlphaBetaPlayer(true, "Alpha");
+		Player alpha2 = new AlphaBetaPlayer(false, "Alpha");
 		Player steve = new SimpleStrat(false, "Steve");
 		Player human = new HumanPlayer(false, "John Smith");
 		Player alphaID1 = new AlphaBetaIDPlayer(true, "AlphaID");
 		Player alphaID2 = new AlphaBetaIDPlayer(false, "AlphaID");
 		Player missy1 = new NoMistakeOnePly(true, "Missy");
 		Player missy2 = new NoMistakeOnePly(false, "Missy");
+		Player symmetry1 = new SymmetryPlayer(true, "Simmo");
+		Player symmetry2 = new SymmetryPlayer(false, "Simmo");
 		//testGame(missy, alpha, true);
 		//testGame(alphaID1, missy2, 10, false);
-		testGame(alphaID1, missy2, 5, false);
+		testGame(symmetry1, alpha2, 10, false);
 		
 	}
 	

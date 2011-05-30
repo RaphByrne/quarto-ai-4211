@@ -15,7 +15,6 @@ public class NoMistakeOnePly extends Player {
 	public NoMistakeOnePly(boolean isOne, String name) {
 		super(isOne, name);
 		this.isOne = isOne;
-		// TODO Auto-generated constructor stub
 	}
 	
 	public NoMistakeOnePly(boolean isOne) {

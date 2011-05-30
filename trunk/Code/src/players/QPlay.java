@@ -45,7 +45,6 @@ public class QPlay {
 		
 		Player alpha1 = new AlphaBetaPlayer(true, "Alpha");
 		Player alpha2 = new AlphaBetaPlayer(false, "Alpha");
-		Player steve = new SimpleStrat(false, "Steve");
 		Player human = new HumanPlayer(false, "John Smith");
 		Player alphaID1 = new AlphaBetaIDPlayer(true, "AlphaID");
 		Player alphaID2 = new AlphaBetaIDPlayer(false, "AlphaID");

@@ -308,8 +308,12 @@ public class QBoard implements Environment, Percept, State, java.lang.Cloneable,
 	
 	public boolean isValidMove(QMove move) {
 		Point loc = move.getLocation();
-		return !(loc.x > 3 || loc.y > 3 || board[loc.x][loc.y] != null
-				|| move.getGiving().equals(nextPiece));
+		Piece giving = move.getGiving();
+		if(!firstMove) 
+			return !(loc.x > 3 || loc.y > 3 || board[loc.x][loc.y] != null
+				|| giving.equals(nextPiece));
+		else
+			return giving != null;
 	}
 	
 	@Override

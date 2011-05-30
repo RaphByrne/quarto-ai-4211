@@ -4,6 +4,13 @@ import quarto.*;
 
 public class QPlay {
 
+	/**
+	 * Runs a single game between two players
+	 * @param p1 the first player
+	 * @param p2 the second player
+	 * @param verbose if true will print out text based descriptions of each move
+	 * to std out
+	 */
 	private static void testGame(Player p1, Player p2, boolean verbose) {
 		Quarto game = new Quarto(p1, p2);
 		if(verbose) System.out.println("Initial Board: \n" + game.printBoard());
@@ -17,6 +24,14 @@ public class QPlay {
 		else System.out.println("Draw - Everybody loses");
 	}
 	
+	/**
+	 * Runs a volume test of games, printing win loss stats to stdout upon completion
+	 * @param p1 the first player
+	 * @param p2 the second player
+	 * @param numGames the number of tests to run
+	 * @param verbose if true will print out text based descriptions of each move
+	 * to std out
+	 */
 	private static void testGame(Player p1, Player p2, int numGames, boolean verbose) {
 		int p1Wins = 0;
 		int p2Wins = 0;
@@ -45,7 +60,7 @@ public class QPlay {
 		
 		Player alpha1 = new AlphaBetaPlayer(true, "Alpha");
 		Player alpha2 = new AlphaBetaPlayer(false, "Alpha");
-		Player human = new HumanPlayer(false, "John Smith");
+		Player human = new HumanPlayer(true, "John Smith");
 		Player alphaID1 = new AlphaBetaIDPlayer(true, "AlphaID");
 		Player alphaID2 = new AlphaBetaIDPlayer(false, "AlphaID");
 		Player missy1 = new NoMistakeOnePly(true, "Missy");
@@ -54,7 +69,7 @@ public class QPlay {
 		Player symmetry2 = new SymmetryPlayer(false, "Simmo");
 		//testGame(missy, alpha, true);
 		//testGame(alphaID1, missy2, 10, false);
-		testGame(symmetry1, alpha2, 100, false);
+		testGame(human, alpha2, true);
 		
 	}
 	

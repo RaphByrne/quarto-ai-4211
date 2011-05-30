@@ -55,7 +55,7 @@ public class QPlay {
 		Player symmetry2 = new SymmetryPlayer(false, "Simmo");
 		//testGame(missy, alpha, true);
 		//testGame(alphaID1, missy2, 10, false);
-		testGame(symmetry1, alpha2, 10, false);
+		testGame(symmetry1, alpha2, 100, false);
 		
 	}
 	

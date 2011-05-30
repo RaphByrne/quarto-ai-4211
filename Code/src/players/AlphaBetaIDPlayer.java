@@ -52,11 +52,11 @@ public class AlphaBetaIDPlayer extends Player {
 			Node start = new Node(board);
 			long here = System.currentTimeMillis();
 			AlphaBetaID searcher = new AlphaBetaID(nodeInfo, start, 5000 - (here - startTime));
-			long begin = System.currentTimeMillis();
+			
 			searcher.run();
 			long end = System.currentTimeMillis();
-			long total = end - begin;
-			System.out.println("Alphabeta time: " + total);
+			long total = end - startTime;
+			System.out.println(total);
 			if(searcher.best != null) return searcher.best;
 			else return next;
 			//Action alpha = searcher.IDSearch(start, next);

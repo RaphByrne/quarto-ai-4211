@@ -52,7 +52,7 @@ public class QPlay {
 		Player missy2 = new NoMistakeOnePly(false, "Missy");
 		//testGame(missy, alpha, true);
 		//testGame(alphaID1, missy2, 10, false);
-		testGame(missy1, alphaID2, 10, false);
+		testGame(alphaID1, missy2, 5, false);
 		
 	}
 	

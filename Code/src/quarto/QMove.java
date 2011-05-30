@@ -43,8 +43,18 @@ public class QMove implements Action {
 		this.giving = new Piece(s.substring(4));
 	}
 	
+	@Override
 	public Object clone() {
 		return new QMove(recieved, location, giving);
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if(o instanceof QMove) {
+			QMove move = (QMove)o;
+			return recieved.equals(move.recieved) && location.equals(move.location) && giving.equals(move.giving);
+		} else
+			return false;
 	}
 	
 	@Override

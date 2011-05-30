@@ -17,6 +17,7 @@ public class AlphaBetaID extends Thread {
   public Action best;
   long startTime;
   long timeToRun;
+  int plyCount = 0;
   
   public AlphaBetaID (NodeInfo nodeInfo, Node start, long timeToRun) {
     this.nodeInfo = nodeInfo;
@@ -32,41 +33,17 @@ public class AlphaBetaID extends Thread {
 	  nodeInfo.setDepthLimit(2);
 	  //Action best = null;
 	  while((nodeInfo.getDepthLimit() <= 16)) {
+		  Action nextBest;
+		  plyCount = 0;
+		  nextBest = Decision(start);
+		  System.out.println("Maximum depth of this search " + plyCount);
 		  if(System.currentTimeMillis() - startTime > timeToRun) break;
-		  best = Decision(start);
+		  best = nextBest;
 		  Node clone = (Node)start.clone();
 		  clone.update(best);
 		  if(nodeInfo.utility(clone) < -0.5) best = null;
 		  //System.out.println("Utility of best: " + nodeInfo.utility(clone));
 		  nodeInfo.setDepthLimit(nodeInfo.getDepthLimit() + 1);
-	  }
-  }
-  
-  public Action IDSearch(Node start, Action other) {
-	  nodeInfo.setDepthLimit(2);
-	  Action best = null;
-	  while((nodeInfo.getDepthLimit() <= 16)) {
-		  if(Thread.interrupted()) break;
-		  best = Decision(start);
-		  Node clone = (Node)start.clone();
-		  clone.update(best);
-		  System.out.println("Utility of best: " + nodeInfo.utility(clone));
-		  if(nodeInfo.utility(clone) > 0.1){
-			  System.out.println("Alpha using result from search");
-			  return best;
-			  }
-		  nodeInfo.setDepthLimit(nodeInfo.getDepthLimit() + 2);
-	  }
-	  Node clone = (Node)start.clone();
-	  clone.update(best);
-	  if(best != null && nodeInfo.utility(clone) > -0.1)
-	  {
-		  System.out.println("Alpha using result from search");
-		  return best;
-	  }
-	  else {
-		  System.out.println("Alpha using no mistake value after search");
-		  return other;
 	  }
   }
   
@@ -94,7 +71,9 @@ public class AlphaBetaID extends Thread {
 		  nodeclone.update(nextAction);
 		  double maxVal;
 		  //System.out.println("Top level: Test Action");
+		  //plyCount = 0;
 		  maxVal = minValue(nodeclone, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+		  
 		  //System.out.println("Top level: recieved max of " + maxVal);
 		  //System.out.println("Found move with utility: " + maxVal);
 		  if(maxVal > bestValue) {
@@ -137,6 +116,7 @@ public class AlphaBetaID extends Thread {
     	  arc = (Action)li.next();
     	  child = (Node)visit.clone();
     	  child.update(arc);
+    	  if(child.getPath().size() > plyCount) plyCount = child.getPath().size();
     	  //if(!visited.contains(child)) {
     	  		
 	    	  alpha = Math.max(alpha, minValue(child, alpha, beta));
@@ -177,6 +157,7 @@ public class AlphaBetaID extends Thread {
     	  arc = (Action)li.next();
     	  child = (Node)visit.clone();
     	  child.update(arc);
+    	  if(child.getPath().size() > plyCount) plyCount = child.getPath().size();
     	  //if(!visited.contains(child)) {
     	  		
 	    	  beta = Math.min(beta, maxValue(child, alpha, beta));
